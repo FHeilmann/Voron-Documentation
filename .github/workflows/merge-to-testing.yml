@@ -1,5 +1,5 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: Merge main into testing/Live
+run-name: ${{ github.actor }} is merging main 🚀
 on: 
   workflow_dispatch:
     inputs:

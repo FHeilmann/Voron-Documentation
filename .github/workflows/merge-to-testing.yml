@@ -26,12 +26,14 @@ jobs:
         with:
           fetch-depth: 0
       - name: Attempt the merge
+        id: merge_one
+        continue-on-error: true
         run: |
           git checkout ${{ inputs.targetBranch }}
           git merge main --ff-only
           git push
       - name: Force merge if necessary
-        if: ${{ failure() && github.event.inputs.force == 'true' }}
+        if: ${{ job.steps.merge_one.status == failure() && github.event.inputs.force == 'true' }}
         run: |
           git checkout ${{ inputs.targetBranch }}
           git reset --hard main

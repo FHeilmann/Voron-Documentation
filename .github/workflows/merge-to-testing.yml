@@ -31,7 +31,7 @@ jobs:
           git merge main --ff-only
           git push
       - name: Force merge if necessary
-        if: ${{ failure() && inputs.force == 'true' }}
+        if: ${{ failure() && github.event.inputs.force == 'true' }}
         run: |
           git checkout ${{ inputs.targetBranch }}
           git reset --hard main

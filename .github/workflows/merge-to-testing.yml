@@ -28,13 +28,11 @@ jobs:
         run: |
           git checkout ${{ inputs.targetBranch }}
           git merge main --ff-only
+          git push
       - name: Force merge if necessary
-        if: failure() && ${{ inputs.force }}
+        if: ${{ failure() && inputs.force == 'true' }}
         run: |
-          git checkout live
+          git checkout ${{ inputs.targetBranch }}
           git reset --hard main
-          git push --force
-      - name: Push
-        run: |
-          git push      
+          git push --force  
       - run: echo "🍏 This job's status is ${{ job.status }}."

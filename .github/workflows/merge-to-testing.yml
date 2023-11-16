@@ -38,4 +38,7 @@ jobs:
           git checkout ${{ inputs.targetBranch }}
           git reset --hard main
           git push --force  
+      - name: Properly fail if force is false
+        if: ${{ job.steps.merge_one.status == failure() && github.event.inputs.force == 'false' }}
+        run: exit 1
       - run: echo "🍏 This job's status is ${{ job.status }}."

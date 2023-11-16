@@ -14,7 +14,7 @@ on:
       force:
         description: 'Force sync (hard reset to main)'
         required: true
-        default: true
+        default: false
         type: boolean
 jobs:
   manual_merge:
@@ -22,11 +22,13 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: Attempt the merge
         run: |
-          git checkout live
+          git checkout ${{ inputs.targetBranch }}
           git merge main --ff-only
       - name: Force merge if necessary
         if: failure() and ${{ inputs.force }}
